@@ -1,0 +1,88 @@
+<h1 class="mt-4">Serviço Prestado</h1>
+<ol class="breadcrumb mb-4">
+    <li class="breadcrumb-item active">Consulta</li>
+</ol>
+<div class="container">
+    <form #serviceForm="ngForm" (submit)="onSubmit()">
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>Nome do Cliente: *</label>
+                    <input type="text" class="form-control" 
+                        [(ngModel)]="customerName" name="customerName"/>
+                </div>
+            </div>
+            
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>Mês: </label>
+
+                <select class="form-control pt-1" name="month" 
+                    [(ngModel)]="month">
+                    <option *ngFor="let month of months; let i = index" [value]="i+1">{{month}}</option>
+                </select>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
+                <button type="submit" class="btn btn-primary"  >
+                    <i class="fa fa-search"></i>
+                    Pesquisar
+                </button>
+
+                <button class="btn btn-info ml-1" type="button" (click)="clearSearch()">
+                    <i class="fa fa-search-plus"></i>
+                    Limpar Consulta
+                </button>
+
+                <button class="btn btn-warning ml-1" (click)="addServiceProvided()">
+                    <i class="fa fa-plus"></i>
+                    Novo
+                </button>
+
+
+            </div>
+        
+        </div>
+    </form>
+</div>
+<br />
+<div class="row" *ngIf="searchMessageReturn && emptyList">
+    <div class="col-md-12">
+        <div class="alert alert-warning" role="alert" >
+            {{searchMessageReturn}}
+        </div>
+    </div>
+</div>
+<br />
+
+<div class="container" *ngIf="!emptyList">
+
+    <div class="row">
+        <div class="col-md-12">
+            <table class="table table-condensed table-hover">
+                <thead>
+                    <tr>
+                        <th>Descrição</th>
+                        <th>Valor</th>
+                        <th>Data</th>
+                        <th>Cliente</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let service of serviceProvidedList">
+                        <th>{{ service.description }}</th>
+                        <th>{{ service.value }}</th>
+                        <th>{{ service.dateService }}</th>
+                        <th>{{ service.customer.name }}</th>
+                    </tr>
+                </tbody>
+            </table>
+            <hr>
+        </div>
+    </div>
+</div>

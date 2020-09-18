@@ -1,0 +1,6 @@
+<div class="form-group">
+    <label for="selectedMonth">Month</label>
+    <select class="form-control pt-1" name="selectedMonth" [(ngModel)]="selectedMonth">
+      <option *ngFor="let month of months; let i = index" [value]="i+1">{{month}}</option>
+    </select>
+</div>

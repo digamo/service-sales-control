@@ -1,0 +1,93 @@
+<h1 class="mt-4">Cliente</h1>
+<ol class="breadcrumb mb-4">
+    <li class="breadcrumb-item active">Consulta</li>
+</ol>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="alert alert-success" role="alert" *ngIf="messageSuccess">
+            {{ messageSuccess }}
+        </div>
+        <div class="alert alert-success" role="alert" *ngIf="messageError">
+            {{ messageError }}
+        </div>
+
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-2">
+            <button class="btn btn-warning" (click)="addCustomer()">
+                <i class="fa fa-plus"></i>
+                Novo
+            </button>
+
+        </div>
+    </div>
+    <br/>
+    <div class="row">
+        <div class="col-md-12">
+            <table class="table table-condensed table-hover">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Nome</th>
+                        <th>CPF</th>
+                        <th>Data de Cadastro</th>
+                        <th>Ações</th>
+                        
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let customer of customers">
+                        <th>{{ customer.id }}</th>
+                        <th>{{ customer.name }}</th>
+                        <th>{{ customer.cpf }}</th>
+                        <th>{{ customer.creationDate | date:'dd/MM/yyyy' }}</th>
+                        <th>
+                            <button class="btn btn-primary" routerLink="/customers/form/{{ customer.id }}">
+                                <i class="fa fa-edit"></i>
+                            </button>
+                            |
+                            <button class="btn btn-danger" 
+                                data-toggle="modal"
+                                data-target="#modalDelecao"
+                                (click)="prepareToDeleteCustomer(customer)">
+                                <i class="fa fa-trash"></i>
+                            </button>
+
+                        </th>
+                    </tr>
+                </tbody>
+            </table>
+            <hr>
+            <ul class="nav nav-pills" >
+                <li class="nav-item" *ngFor="let p of pages; let i = index">
+                    <a class="nav-link" href="" (click)="setPage(i, $event)">{{ i }} </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div id="modalDelecao" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4>Confirmação</h4>
+                </div>
+                <div class="modal-body" *ngIf="customerToDelete">
+                    Confirmar a exclusão do(a) cliente {{ customerToDelete.name }} ?
+                </div>
+ 
+                <div class="modal-footer" *ngIf="customerToDelete">
+                    <button class="btn btn-success" (click)="deleteCustomers()" data-dismiss="modal">Confirmar</button>
+                    <button class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                </div>
+
+            </div>
+        </div>
+        
+    </div>
+
+</div>

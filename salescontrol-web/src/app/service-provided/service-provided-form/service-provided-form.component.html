@@ -46,14 +46,16 @@
             <div class="col-md-6">
                 <div class="form-group">
                     <label>Valor: *</label>
-                    <input type="text" class="form-control" 
-                        [(ngModel)]="serviceProvider.value" name="value"/>
+
+                    <input type="number" class="form-control" 
+                    currencyMask [(ngModel)]="serviceProvider.value" name="value" 
+                    />
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="form-group">
                     <label>Data: *</label>
-                    <input type="text" class="form-control" 
+                    <input type="date" class="form-control" placeholder="dd-MM-yyyy"
                         [(ngModel)]="serviceProvider.dateService" name="dateService"/>
                 </div>
             </div>

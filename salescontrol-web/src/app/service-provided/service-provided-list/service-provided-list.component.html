@@ -8,7 +8,7 @@
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
-                    <label>Nome do Cliente: *</label>
+                    <label>Nome do Cliente:</label>
                     <input type="text" class="form-control" 
                         [(ngModel)]="customerName" name="customerName"/>
                 </div>
@@ -77,12 +77,18 @@
                     <tr *ngFor="let service of serviceProvidedList">
                         <th>{{ service.description }}</th>
                         <th>{{ service.value }}</th>
-                        <th>{{ service.dateService }}</th>
+                        <th>{{ service.dateService | date:'dd/MM/yyyy'}}</th>
                         <th>{{ service.customer.name }}</th>
                     </tr>
                 </tbody>
             </table>
             <hr>
+            <hr>
+            <ul class="nav nav-pills" >
+                <li class="nav-item" *ngFor="let p of pages; let i = index">
+                    <a class="nav-link" href="" (click)="setPage(i, $event)">{{ i }} </a>
+                </li>
+            </ul>            
         </div>
     </div>
 </div>

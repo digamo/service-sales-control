@@ -14,6 +14,7 @@ import { LoginComponent } from './login/login.component';
 import { LayoutComponent } from './layout/layout.component';
 import { TokenInterceptor } from './token.interceptor';
 import { ListMonthsComponent } from './components/list-months/list-months.component';
+import { CurrencyMaskModule } from 'ng2-currency-mask';
 
 @NgModule({
   declarations: [
@@ -25,11 +26,12 @@ import { ListMonthsComponent } from './components/list-months/list-months.compon
   imports: [
     BrowserModule,
     FormsModule,
+    CurrencyMaskModule,
     AppRoutingModule,
     HttpClientModule,
     TemplateModule,
     CustomersModule,
-    ServiceProvidedModule
+    ServiceProvidedModule,
   ],
   //providers: Dependency injection
   providers: [

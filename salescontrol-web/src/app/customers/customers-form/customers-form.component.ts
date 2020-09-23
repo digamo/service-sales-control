@@ -15,6 +15,7 @@ export class CustomersFormComponent implements OnInit {
   customer: Customer;
   success: boolean = false;
   errors: string[];
+  customerJustBeenInserted = false;
 
   constructor( 
     private service : CustomersService,
@@ -44,35 +45,32 @@ export class CustomersFormComponent implements OnInit {
     this.router.navigate(['/customers/list']);
   }
 
-  onSubmit(){
-
-    if( this.id ){
-
+  updateCustomer(){
+    console.log("entrou1: ");
       this.service
       .update(this.customer)
       .subscribe( response => {
         this.success = true;
         this.errors = [];
       }, errorResponse =>{
-        this.errors = ["Erro ao atualizar o cliente"];
+        console.log("Errp: " + errorResponse.error[0]);
+        this.errors = errorResponse.error;
       })
+  }
 
-    }
-    else
-    {
+  onSubmit(){
 
       this.service.save(this.customer)
       .subscribe( response =>{
         this.success = true;
         this.errors = [];
         this.customer = response;
+        this.customerJustBeenInserted = true;
       }, errorResponse =>{
         this.customer = new Customer();
         this.success = false;
         this.errors = errorResponse.error;
       });
-
-    }
 
   }
 

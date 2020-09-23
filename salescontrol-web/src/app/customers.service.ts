@@ -16,7 +16,7 @@ export class CustomersService {
   apiURL: string = environment.apiUrlBase + '/api/customers';
 
   //Observable waits for the return of the http to act when it has the response of the server
-  save(customer: Customer) : Observable<Customer>{
+  save(customer: Customer) : Observable<any>{
     return this.http.post<Customer>(this.apiURL , customer);
   }
 

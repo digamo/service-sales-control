@@ -1,12 +1,8 @@
 package br.com.digamo.salescontrol.controller;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.List;
-
 import javax.validation.Valid;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,59 +14,43 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import br.com.digamo.salescontrol.controller.dto.ServiceProvidedDto;
-import br.com.digamo.salescontrol.model.entity.Customer;
+import br.com.digamo.salescontrol.exception.CustomerException;
+import br.com.digamo.salescontrol.exception.ServiceProvidedException;
 import br.com.digamo.salescontrol.model.entity.ServiceProvided;
-import br.com.digamo.salescontrol.model.repository.CustomerRepository;
-import br.com.digamo.salescontrol.model.repository.ServiceProvidedRepository;
-import br.com.digamo.salescontrol.model.repository.custom.ServiceProvidedCustomRepository;
-import br.com.digamo.salescontrol.util.BigDecimalConverter;
+import br.com.digamo.salescontrol.service.ServiceProvidedService;
 
 @RestController
 @RequestMapping("/api/service-provided")
 public class ServiceProvidedController {
 
-	@Autowired
-	private ServiceProvidedRepository repository;
+	private final ServiceProvidedService service;
 
-	@Autowired
-	private ServiceProvidedCustomRepository repositoryCustom;
+	public ServiceProvidedController(ServiceProvidedService service) {
+		this.service = service;
+	}
 
-	@Autowired
-	private CustomerRepository customerRepository;
-	
 	/**
 	 * Receives JSON with not null DTO to register a new ServiceProvided
+	 * This DTO parameter has the function of shielding the API so that the entity is not directly accessed
 	 * Returns JSON with the new ServiceProvided created and HttpStatus.CREATED (201)
 	 * @param customer
 	 * @return  
+	 * @throws CustomerException 
 	 */
 	@PostMapping
 	@ResponseStatus(value = HttpStatus.CREATED)
-	public ServiceProvided save(@RequestBody @Valid ServiceProvidedDto serviceProvidedDto) {
+	public ServiceProvided save(@RequestBody @Valid ServiceProvidedDto serviceProvidedDto) throws CustomerException {
 		
-		LocalDate dateFormated = null;
+		ServiceProvided serviceSaved = null;
 		
 		try {
-			dateFormated = LocalDate.parse(serviceProvidedDto.getDateService(), DateTimeFormatter.ofPattern("dd/MM/yyyy")); 
-		
-		}catch (Exception e) {
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Formato de data errado.");
+			serviceSaved = service.save(serviceProvidedDto);
+			
+		} catch (ServiceProvidedException e) {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
 		}
 		
-		Customer customer = customerRepository
-				.findById(serviceProvidedDto.getIdCustomer())
-				.orElseThrow( () -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Cliente inexistente."));
-		
-		ServiceProvided serviceProvided = new ServiceProvided();
-		serviceProvided.setDescription(serviceProvidedDto.getDescription());
-		serviceProvided.setDateService(dateFormated);
-		serviceProvided.setCustomer(customer);
-		serviceProvided.setValue(BigDecimalConverter.converter(serviceProvidedDto.getValue()));
-		
-		repository.save(serviceProvided);
-		
-		return serviceProvided;
-		
+		return serviceSaved;
 	}
 
 	/**
@@ -80,11 +60,13 @@ public class ServiceProvidedController {
 	 * @return 
 	 */
 	@GetMapping
-	public List<ServiceProvided> search(
+	public Page<ServiceProvided> search(
+			@RequestParam(required = false, defaultValue = "1") Integer page, 
+			@RequestParam(required = false, defaultValue = "4") Integer size,
 			@RequestParam(value = "customerName", required = false) String customerName, 
 			@RequestParam(value = "serviceMonth", required = false) Integer serviceMonth) {
 		
-		return repositoryCustom.findServiceByCustomerNameAndServiceMonth(customerName, serviceMonth);
+		return service.findServiceByCustomerNameAndServiceMonth(customerName, serviceMonth, page, size);
 	}
 
 }

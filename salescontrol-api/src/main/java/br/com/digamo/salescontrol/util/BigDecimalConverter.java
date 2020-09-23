@@ -13,10 +13,19 @@ public class BigDecimalConverter {
 
 		if(value == null)
 			return null;
+
+		BigDecimal convertedValue = null;
 		
-		String newValue = value.replace(".", "").replace(",", ".");
+		try {
 		
-		return new BigDecimal(newValue);
+			String newValue = value.replace(".", "").replace(",", ".");
+			convertedValue = new BigDecimal(newValue);
+		
+		}catch (NumberFormatException e) {
+			throw new NumberFormatException(e.getMessage());
+		}
+		
+		return convertedValue;
 	}
 
 }

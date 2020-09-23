@@ -16,11 +16,11 @@ export class ServiceProvidedService {
 
   apiURL: string = environment.apiUrlBase + '/api/service-provided';
 
-  salvar(serviceProvider: ServiceProvider) : Observable<any>{
+  save(serviceProvider: ServiceProvider) : Observable<any>{
     return this.http.post<ServiceProvider>(this.apiURL , serviceProvider);
   }
 
-  getCustomers(customerName : string, serviceMonth: number) : Observable<ServiceProviderSearch[]>{
+  getServiceProvided(customerName : string, serviceMonth: number) : Observable<ServiceProviderSearch[]>{
 
     const httpParams = new HttpParams()
       .set("customerName", customerName ? customerName : '')
@@ -29,4 +29,17 @@ export class ServiceProvidedService {
     return this.http.get<ServiceProviderSearch[]>(`${this.apiURL}?${httpParams.toString()}`);
   }
  
+  getServiceProvidedPageable(customerName : string, serviceMonth: number, page : number, size : number) : Observable<ServiceProviderSearch[]>{
+
+    const httpParams = new HttpParams()
+    .set("customerName", customerName ? customerName : '')
+    .set("serviceMonth", serviceMonth ? serviceMonth.toString(): '')
+    .set("page", page > 0 ? page.toString() : '0')
+    .set("size", size > 0 ? size.toString() : '4')
+    ;
+
+    //return this.http.get<ServiceProviderSearch[]>(`${this.apiURL}?page=${page}&size=${size}`);
+    return this.http.get<ServiceProviderSearch[]>(`${this.apiURL}?${httpParams.toString()}`);
+  }
+  
 }

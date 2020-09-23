@@ -5,9 +5,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.validation.constraints.NotEmpty;
-
-import org.hibernate.validator.constraints.br.CPF;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -28,21 +25,9 @@ public class Customer extends Auditable<String>{
 	private Long id;
 	
 	@Column(nullable = false, length = 150)
-	@NotEmpty(message = "{required.name.field}")
 	private String name;
 	
 	@Column(nullable = false, length = 11)
-	@NotEmpty(message = "{required.cpf.field}")
-	@CPF(message = "{invalid.cpf.field}")
 	private String cpf;
 	
-//	@Column(name="date_register")
-//	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-//	private LocalDateTime dateRegister;
-//	
-//	@PrePersist
-//	public void prePersist() {
-//		setDateRegister(LocalDateTime.now());
-//	}
-
 }

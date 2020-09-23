@@ -11,8 +11,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -40,17 +38,6 @@ public class ServiceProvided extends Auditable<String>{
 	private Customer customer;
 
 	@Column(name="date_service")
-	@JsonFormat(pattern = "dd/MM/yyyy")
 	private LocalDate dateService;
 
-//	@Column(name="date_register")
-//	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-//	private LocalDateTime dateRegister;
-//	
-//	@PrePersist
-//	public void prePersist() {
-//		setDateRegister(LocalDateTime.now());
-//	}
-
-	
 }

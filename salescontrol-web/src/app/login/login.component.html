@@ -11,12 +11,13 @@
                                         {{ signUp ? 'Sign Up' : 'Log In' }}
                                     </h3>
                                 </div>
+                                
                                 <div class="card-body">
                                     <div class="alert alert-success" *ngIf="messageSuccess" >
                                         {{ messageSuccess }}
                                     </div>
                                     <div class="alert alert-danger"  role="alert" *ngFor="let error of errors">
-                                        {{ error }}
+                                        {{ error.message }}
                                     </div>
                     
 

@@ -18,7 +18,6 @@ import lombok.Data;
 @EntityListeners(AuditingEntityListener.class)
 public abstract class Auditable<U> {
 
-
     @CreatedBy
     protected U createdBy;
     

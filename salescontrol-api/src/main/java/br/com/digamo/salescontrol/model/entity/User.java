@@ -11,7 +11,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
-import javax.validation.constraints.NotEmpty;
 
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
@@ -29,16 +28,21 @@ public class User  extends Auditable<String> implements UserDetails{
 
 	private static final long serialVersionUID = 1L;
 
+	public User(String username, String password) {
+		this.username = username;
+		this.password = password;
+	}
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
 	@Column(unique = true)
-	@NotEmpty(message = "{required.user.username.field}")
+	//@NotEmpty(message = "{required.user.username.field}")
 	private String username;
 	
 	@Column
-	@NotEmpty(message = "{required.user.passowrd.field}")
+	//@NotEmpty(message = "{required.user.passowrd.field}")
 	private String password;
 
 	@ManyToMany(fetch = FetchType.EAGER)
@@ -69,8 +73,4 @@ public class User  extends Auditable<String> implements UserDetails{
 		return true;
 	}
 
-	public UsernamePasswordAuthenticationToken convert() {
-		return new UsernamePasswordAuthenticationToken(this.username, this.password);
-	}
-	
 }

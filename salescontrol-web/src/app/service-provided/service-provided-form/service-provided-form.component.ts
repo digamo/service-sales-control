@@ -35,14 +35,12 @@ export class ServiceProvidedFormComponent implements OnInit {
 
   onSubmit(){
     this.serviceProvidedService
-      .salvar(this.serviceProvider)
+      .save(this.serviceProvider)
       .subscribe( response => {
-        console.log(response);
         this.serviceProvider = new ServiceProvider();
         this.success = true;
         this.errors = [];
       }, errorResponse => {
-        console.log(errorResponse);
         this.success = false;
         this.errors = errorResponse.error;
       });

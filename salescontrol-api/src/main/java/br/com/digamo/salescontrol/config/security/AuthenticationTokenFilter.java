@@ -13,14 +13,14 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import br.com.digamo.salescontrol.model.entity.User;
 import br.com.digamo.salescontrol.model.repository.UserRepository;
-import br.com.digamo.salescontrol.service.TokenService;
+import br.com.digamo.salescontrol.service.AuthenticationService;
 
 public class AuthenticationTokenFilter extends OncePerRequestFilter{
 
-	private TokenService tokenService;
+	private AuthenticationService tokenService;
 	private UserRepository userRepository;
 
-	public AuthenticationTokenFilter(TokenService tokenService, UserRepository userRepository) {
+	public AuthenticationTokenFilter(AuthenticationService tokenService, UserRepository userRepository) {
 		this.tokenService = tokenService;
 		this.userRepository = userRepository;
 	}

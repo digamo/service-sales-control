@@ -4,7 +4,6 @@ import java.util.List;
 
 import javax.validation.Valid;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -21,26 +20,42 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
+import br.com.digamo.salescontrol.controller.dto.CustomerDto;
+import br.com.digamo.salescontrol.exception.CustomerException;
 import br.com.digamo.salescontrol.model.entity.Customer;
-import br.com.digamo.salescontrol.model.repository.CustomerRepository;
+import br.com.digamo.salescontrol.service.CustomerService;
 
 @RestController
 @RequestMapping("/api/customers")
 public class CustomerController {
 
-	@Autowired
-	private CustomerRepository customerRepository;
+	private final CustomerService customerService;
+
+	public CustomerController(CustomerService customerService) {
+		this.customerService = customerService;
+	}
 
 	/**
-	 * Receives JSON with not null fields to register a new customer
+	 * Receives JSON with not null fields to register a new customerDto
+	 * This DTO parameter has the function of shielding the API so that the entity is not directly accessed
 	 * Returns JSON with the new customer created and HttpStatus.CREATED (201)
-	 * @param customer
+	 * @param customerDto
 	 * @return  
 	 */
 	@PostMapping
 	@ResponseStatus(value = HttpStatus.CREATED)
-	public Customer save(@RequestBody @Valid Customer customer ) {
-		return customerRepository.save(customer);
+	public Customer save(@RequestBody @Valid CustomerDto customerDto ) {
+
+		Customer customerSaved = null;
+		
+		try {
+			customerSaved = customerService.save(customerDto);
+			
+		} catch (CustomerException e) {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+		}
+		
+		return customerSaved;
 	}
 
 	/**
@@ -51,38 +66,46 @@ public class CustomerController {
 	 */
 	@GetMapping("{id}")
 	public Customer findById(@PathVariable Long id ) {
-		return customerRepository.findById(id)
-				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+		
+		Customer customer = null;
+		
+		try {
+			customer = customerService.findById(id);
+					
+		} catch (CustomerException e) {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+		}
+		
+		return customer;
+
 	}
 
 	/**
-	 * Returns JSON with the list of customer with Pageable and HttpStatus.OK (200). If not, returns HttpStatus.NOT_FOUND (404)
+	 * Returns JSON with the list of customer with Pageable and HttpStatus.OK (200). If not, a empty list
 	 * @param page
 	 * @param size
-	 * @return Returns JSON with a customer list with Pageable found and HttpStatus.OK (200). If not, a empty list
+	 * @return 
 	 */
 	@GetMapping
-	public Page<Customer> listWithPageable(@RequestParam(
-			required = false, defaultValue = "0") Integer page, 
+	public Page<Customer> listWithPageable(
+			@RequestParam(required = false, defaultValue = "0") Integer page, 
 			@RequestParam(required = false, defaultValue = "10") Integer size ){
 
 		Pageable pagination =  PageRequest.of(page, size);
 		
-		Page<Customer> customers = customerRepository.findAll(pagination);
+		Page<Customer> customers = customerService.findAll(pagination);
 		
 		return customers;
 
 	}
 
 	/**
-	 * Returns JSON with the list of customer and HttpStatus.OK (200). If not, returns HttpStatus.NOT_FOUND (404)
-	 * @return Returns JSON with a customer list found and HttpStatus.OK (200). If not, a empty list
+	 * Returns JSON with a customer list found and HttpStatus.OK (200). If not, a empty list 
+	 * @return
 	 */
 	@GetMapping("/all")
 	public List<Customer> listAll(){
-
-		return customerRepository.findAll();
-
+		return customerService.findAll();
 	}
 
 	/**
@@ -95,39 +118,31 @@ public class CustomerController {
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	public void delete(@PathVariable Long id ) {
 		
-		customerRepository.findById(id)
-			.map( customer -> {
-				customerRepository.delete(customer);
-				return Void.TYPE;
-				
-			})
-			.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Customer not found"));
-		
+		try {
+			customerService.delete(id);
+			
+		} catch (CustomerException e) {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+		}
 	}
 
 	/**
-	 * Receives @PathVariable id and the Customer Object in @RequestBody to be updated
+	 * Receives @PathVariable id and the CustomerDto Object in @RequestBody to be updated
+	 * This DTO parameter has the function of shielding the API so that the entity is not directly accessed
 	 * Returns HttpStatus.NO_CONTENT (204) if update was success. If not, returns HttpStatus.NOT_FOUND (404)
 	 * @param id
 	 * @return 
 	 */
 	@PutMapping("{id}")
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
-	public void update(@PathVariable Long id, @Valid @RequestBody Customer updatedCustomer ) {
-		
-		customerRepository.findById(id)
-			.map( customer -> {
-				
-				customer.setCpf(updatedCustomer.getCpf());
-				customer.setName(updatedCustomer.getName());
+	public void update(@PathVariable Long id, @Valid @RequestBody CustomerDto updatedCustomer ) {
 
-				customerRepository.save(customer);
-				return Void.TYPE;
-				
-			})
-			.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Customer not found"));
-		
+		try {
+			customerService.update(id, updatedCustomer);
+			
+		} catch (CustomerException e) {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+		}
 	}
-	
 	
 }

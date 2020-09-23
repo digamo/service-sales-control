@@ -11,7 +11,7 @@
                     Cliente salvo com sucesso!
                 </div>
                 <div class="alert alert-danger"  role="alert" *ngFor="let error of errors">
-                    {{ error }}
+                    {{ error.message }}
                 </div>
 
             </div>
@@ -58,7 +58,8 @@
                     Salvar
                 </button>
                 
-                <button type="submit" class="btn btn-primary" *ngIf="customer.id" >
+                <button type="button" class="btn btn-primary" (click)="updateCustomer()"
+                *ngIf="customer.id && !customerJustBeenInserted" >
                     <i class="fa fa-sync-alt"></i>
                     Atualizar
                 </button>

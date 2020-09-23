@@ -13,7 +13,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 import br.com.digamo.salescontrol.model.repository.UserRepository;
 import br.com.digamo.salescontrol.service.UserService;
-import br.com.digamo.salescontrol.service.TokenService;
+import br.com.digamo.salescontrol.service.AuthenticationService;
 
 //Habilitar o módulo de securança na aplicação
 @EnableWebSecurity
@@ -23,7 +23,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	private UserService autenticacaoService;
 
 	@Autowired
-	private TokenService tokenService;
+	private AuthenticationService tokenService;
 	
 	@Autowired
 	private UserRepository userRepository;

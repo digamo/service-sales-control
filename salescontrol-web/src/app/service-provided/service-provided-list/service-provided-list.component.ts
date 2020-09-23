@@ -22,6 +22,10 @@ const getMonth = (idx) => {
 })
 export class ServiceProvidedListComponent implements OnInit {
 
+  sizeOfListCustomer : number = 3;
+  page : number = 0;
+  pages : Array<number>; 
+
   customerName : string;
   serviceProvidedList : ServiceProviderSearch [];
   searchMessageReturn : string = ""
@@ -41,13 +45,32 @@ export class ServiceProvidedListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
+    this.getServiceProvidedPageable();
   } 
+
+  setPage(i : number, event:any){
+    event.preventDefault();
+    this.page = i;
+    this.getServiceProvidedPageable()
+  }
+
+  getServiceProvidedPageable(){
+    console.log("pagable");
+    this.service.getServiceProvidedPageable(this.customerName, this.month, this.page, this.sizeOfListCustomer)
+    .subscribe( response => {
+        this.serviceProvidedList = response['content'];
+        this.pages = new Array(response['totalPages']);
+
+        console.log("conteudo lista " + this.serviceProvidedList);
+        console.log("pagina " + this.pages.length);
+    })
+
+  }
 
   addServiceProvided(){
     this.router.navigate(['/service-provided/form']);
   }
-
+ 
   clearSearch(){
     this.emptyList = true;
     this.month = 0;
@@ -55,15 +78,15 @@ export class ServiceProvidedListComponent implements OnInit {
   }
 
   onSubmit(){
-    this.service.getCustomers(this.customerName, this.month)
-    .subscribe( response => {
-      this.serviceProvidedList = response;
-      if(this.serviceProvidedList.length <= 0){
+    console.log("submit");
+      this.getServiceProvidedPageable();
+      if(this.serviceProvidedList == null || this.serviceProvidedList.length == 0){
         this.searchMessageReturn = "Nenhum registro encontrado.";
         this.emptyList = true;
+        console.log("empty");
       }else{
         this.emptyList = false;
+        console.log("full");
       }
-    })
   }
 }

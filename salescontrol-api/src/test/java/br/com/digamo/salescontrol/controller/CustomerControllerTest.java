@@ -1,6 +1,7 @@
 package br.com.digamo.salescontrol.controller;
 
-public class UserControllerTest {
+
+public class CustomerControllerTest {
 
 
 	public void shouldSaveUserWithSuccess() {

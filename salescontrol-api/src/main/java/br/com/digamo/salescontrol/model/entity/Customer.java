@@ -20,6 +20,11 @@ import lombok.NoArgsConstructor;
 @Builder
 public class Customer extends Auditable<String>{
 
+	public Customer(String name, String cpf) {
+		this.name = name;
+		this.cpf = cpf;
+	}
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;

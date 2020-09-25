@@ -20,11 +20,11 @@ public class Role  extends Auditable<String> implements GrantedAuthority{
 	private static final long serialVersionUID = 1L;
 	
 	@Id
-	private String nome;
+	private String name;
 
 	@Override
 	public String getAuthority() {
-		return this.nome;
+		return this.name;
 	}
 	
 }

@@ -19,7 +19,7 @@ import org.springframework.web.server.ResponseStatusException;
  * from any controller. Spring will call this class, as an interceptor,
  * where appropriate error handling will be done.
  * 
- * @author digam
+ * @author digamo
  *
  */
 @RestControllerAdvice

@@ -23,6 +23,13 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class ServiceProvided extends Auditable<String>{
 
+	public ServiceProvided(String description, BigDecimal value, LocalDate dateService, Customer customer) {
+		this.description = description;
+		this.value = value;
+		this.dateService = dateService;
+		this.customer = customer;
+	}
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;

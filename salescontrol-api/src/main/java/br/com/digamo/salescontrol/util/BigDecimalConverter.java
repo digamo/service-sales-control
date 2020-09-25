@@ -18,7 +18,7 @@ public class BigDecimalConverter {
 		
 		try {
 		
-			String newValue = value.replace(".", "").replace(",", ".");
+			String newValue = value.replace(",", ".");
 			convertedValue = new BigDecimal(newValue);
 		
 		}catch (NumberFormatException e) {

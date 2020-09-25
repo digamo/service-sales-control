@@ -67,13 +67,6 @@
 			<version>0.9.1</version>
 		</dependency>
 
-
-		<!-- h2 driver -->
-		<dependency>
-			<groupId>com.h2database</groupId>
-			<artifactId>h2</artifactId>
-		</dependency>
-
 		<!-- MySQL -->
 		<dependency>
 		    <groupId>mysql</groupId>
@@ -96,6 +89,12 @@
 		<dependency>
 			<groupId>io.rest-assured</groupId>
 			<artifactId>rest-assured</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
 			<scope>test</scope>
 		</dependency>
 	

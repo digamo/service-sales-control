@@ -127,18 +127,18 @@ public class CustomerController {
 	}
 
 	/**
-	 * Receives @PathVariable id and the CustomerDto Object in @RequestBody to be updated
+	 * Receives CustomerDto Object in @RequestBody to be updated
 	 * This DTO parameter has the function of shielding the API so that the entity is not directly accessed
 	 * Returns HttpStatus.NO_CONTENT (204) if update was success. If not, returns HttpStatus.NOT_FOUND (404)
 	 * @param id
 	 * @return 
 	 */
-	@PutMapping("{id}")
+	@PutMapping
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
-	public void update(@PathVariable Long id, @Valid @RequestBody CustomerDto updatedCustomer ) {
+	public void update(@Valid @RequestBody CustomerDto updatedCustomer ) {
 
 		try {
-			customerService.update(id, updatedCustomer);
+			customerService.update(updatedCustomer);
 			
 		} catch (CustomerException e) {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());

@@ -5,11 +5,13 @@ import javax.validation.constraints.NotEmpty;
 import org.hibernate.validator.constraints.br.CPF;
 
 import br.com.digamo.salescontrol.model.entity.Customer;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 public class CustomerDto {
 
 	private Long id;
@@ -20,7 +22,7 @@ public class CustomerDto {
 	@NotEmpty(message = "{required.cpf.field}")
 	@CPF(message = "{invalid.cpf.field}")
 	private String cpf;
-	
+
 	public Customer convertToEntity () {
 		return new Customer (this.id, this.name, this.cpf );
 	}

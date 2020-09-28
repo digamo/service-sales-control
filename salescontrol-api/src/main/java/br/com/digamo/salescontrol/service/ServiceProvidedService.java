@@ -17,7 +17,6 @@ import br.com.digamo.salescontrol.exception.ServiceProvidedException;
 import br.com.digamo.salescontrol.model.entity.Customer;
 import br.com.digamo.salescontrol.model.entity.ServiceProvided;
 import br.com.digamo.salescontrol.model.repository.ServiceProvidedRepository;
-import br.com.digamo.salescontrol.model.repository.ServiceProvidedRepositoryCustom;
 import br.com.digamo.salescontrol.util.BigDecimalConverter;
 
 @Service

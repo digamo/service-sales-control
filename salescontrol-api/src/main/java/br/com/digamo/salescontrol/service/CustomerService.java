@@ -18,9 +18,10 @@ import br.com.digamo.salescontrol.model.repository.CustomerRepository;
 public class CustomerService {
 
 
-	private final static String CUSTOMER_NOT_FOUND = "customer.not.found.message";
-	private final static String CUSTOMER_ALREADY_EXISTS = "customer.already.exists";
-	
+	public final static String CUSTOMER_NOT_FOUND = "customer.not.found.message";
+	public final static String CUSTOMER_NAME_ALREADY_EXISTS = "customer.name.already.exists";
+	public final static String CUSTOMER_CPF_ALREADY_EXISTS = "customer.cpf.already.exists";
+
 	private final MessageSource messageSource;
 	private final CustomerRepository customerRepository; 
 	
@@ -44,10 +45,11 @@ public class CustomerService {
 		
 			if(customerDto.getCpf().equals(customerFound.get().getCpf()))
 				throw new CustomerException(
-						messageSource.getMessage(CUSTOMER_ALREADY_EXISTS, new String[] {"CPF"}, Locale.getDefault()));
+						messageSource.getMessage(CUSTOMER_CPF_ALREADY_EXISTS, null, Locale.getDefault()));
+			
 			else if(customerDto.getName().equals(customerFound.get().getName())) 
 				throw new CustomerException(
-						messageSource.getMessage(CUSTOMER_ALREADY_EXISTS, new String[] {"Nome"}, Locale.getDefault()));
+						messageSource.getMessage(CUSTOMER_NAME_ALREADY_EXISTS, null, Locale.getDefault()));
 		
 		}
 
@@ -109,11 +111,20 @@ public class CustomerService {
 
 	/**
 	 * 
+	 * @throws CustomerException
+	 */
+	public void deleteAll() throws CustomerException {
+
+		customerRepository.deleteAll();
+	}
+
+	/**
+	 * 
 	 * @param id
 	 * @param updatedCustomer
 	 * @throws CustomerException
 	 */
-	public void update(Long id, CustomerDto customerDto ) throws CustomerException {
+	public void update(CustomerDto customerDto ) throws CustomerException {
 
 		Optional<Customer> customerFound = 
 				customerRepository.findMoreThenOneNameOrCpfWithDifferentId(customerDto.getName(), customerDto.getCpf(), customerDto.getId());
@@ -122,15 +133,15 @@ public class CustomerService {
 		
 			if(customerDto.getCpf().equals(customerFound.get().getCpf()))
 				throw new CustomerException(
-						messageSource.getMessage(CUSTOMER_ALREADY_EXISTS, new String[] {"CPF"}, Locale.getDefault()));
+						messageSource.getMessage(CUSTOMER_CPF_ALREADY_EXISTS, null, Locale.getDefault()));
 
 			else if(customerDto.getName().equals(customerFound.get().getName())) 
 				throw new CustomerException(
-						messageSource.getMessage(CUSTOMER_ALREADY_EXISTS, new String[] {"Nome"}, Locale.getDefault()));
+						messageSource.getMessage(CUSTOMER_NAME_ALREADY_EXISTS, null, Locale.getDefault()));
 		
 		}
 		
-		customerRepository.findById(id)
+		customerRepository.findById(customerDto.getId())
 		.map( customer -> {
 			
 			customer.setCpf(customerDto.getCpf());

@@ -5,12 +5,14 @@ import javax.validation.constraints.NotEmpty;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 
 import br.com.digamo.salescontrol.model.entity.User;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Data
 @EqualsAndHashCode(callSuper=false)
+@AllArgsConstructor
 @NoArgsConstructor
 public class UserDto {
 

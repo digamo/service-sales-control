@@ -46,15 +46,14 @@ export class CustomersFormComponent implements OnInit {
   }
 
   updateCustomer(){
-    console.log("entrou1: ");
       this.service
       .update(this.customer)
       .subscribe( response => {
         this.success = true;
         this.errors = [];
       }, errorResponse =>{
-        console.log("Errp: " + errorResponse.error[0]);
         this.errors = errorResponse.error;
+        this.success = false;
       })
   }
 

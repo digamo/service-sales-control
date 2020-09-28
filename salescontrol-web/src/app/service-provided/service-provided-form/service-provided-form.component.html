@@ -21,7 +21,7 @@
             <div class="col-md-12">
                 <div class="form-group">
                     <label>Cliente: </label>
-                    <select class="form-control" 
+                    <select class="form-control" required
                             [(ngModel)]="serviceProvider.idCustomer" 
                             [ngModelOptions]="{standalone: true}" >
                         <option value="">Selecione...</option>
@@ -37,7 +37,7 @@
             <div class="col-md-12">
                 <div class="form-group">
                     <label>Descrição: *</label>
-                    <input type="text" class="form-control" 
+                    <input type="text" class="form-control"  required
                         [(ngModel)]="serviceProvider.description" name="description"/>
                 </div>
             </div>
@@ -47,15 +47,17 @@
                 <div class="form-group">
                     <label>Valor: *</label>
 
-                    <input type="number" class="form-control" 
-                    currencyMask [(ngModel)]="serviceProvider.value" name="value" 
+                    <input type="number" class="form-control" name="value" min="0"
+                    [(ngModel)]="serviceProvider.value" 
+                    step="0.01"
+                    required
                     />
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="form-group">
                     <label>Data: *</label>
-                    <input type="date" class="form-control" placeholder="dd-MM-yyyy"
+                    <input type="date" class="form-control" placeholder="dd-MM-yyyy" required
                         [(ngModel)]="serviceProvider.dateService" name="dateService"/>
                 </div>
             </div>

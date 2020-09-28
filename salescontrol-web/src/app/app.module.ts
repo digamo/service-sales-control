@@ -13,15 +13,15 @@ import { AuthService } from './auth.service';
 import { LoginComponent } from './login/login.component';
 import { LayoutComponent } from './layout/layout.component';
 import { TokenInterceptor } from './token.interceptor';
-import { ListMonthsComponent } from './components/list-months/list-months.component';
 import { CurrencyMaskModule } from 'ng2-currency-mask';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     LayoutComponent,
-    ListMonthsComponent
+
   ],
   imports: [
     BrowserModule,
@@ -32,6 +32,7 @@ import { CurrencyMaskModule } from 'ng2-currency-mask';
     TemplateModule,
     CustomersModule,
     ServiceProvidedModule,
+    NgxPaginationModule,
   ],
   //providers: Dependency injection
   providers: [

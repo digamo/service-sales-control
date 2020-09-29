@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import br.com.digamo.salescontrol.controller.dto.UserDto;
+import br.com.digamo.salescontrol.exception.CustomerException;
 import br.com.digamo.salescontrol.exception.RegisteredUserException;
 import br.com.digamo.salescontrol.model.entity.Role;
 import br.com.digamo.salescontrol.model.entity.Roles;
@@ -70,4 +71,14 @@ public class UserService implements UserDetailsService{
 		return userRepository.save(newUser);
 	}
 	
+	/**
+	 * 
+	 * @throws CustomerException
+	 */
+	public void deleteAll() throws CustomerException {
+
+		userRepository.deleteAll();
+	}
+
+
 }

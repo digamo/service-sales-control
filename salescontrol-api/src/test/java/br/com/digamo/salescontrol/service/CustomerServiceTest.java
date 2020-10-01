@@ -49,7 +49,6 @@ public class CustomerServiceTest {
     	customerService.deleteAll();
     }
     
-    
 	@Test
 	public void shouldSaveNewCustomerWithSuccess() throws CustomerException {
 
@@ -130,13 +129,13 @@ public class CustomerServiceTest {
 	public void shouldThrowExptionWhenCustomerIsNotFindById() throws CustomerException {
 		
 		// scenario
-		CustomerDto customerDto = new CustomerDto(null, NAME_A, CPF_A) ; 
-		Customer customer = customerService.save(customerDto);
+		Customer customer = new Customer();
+		customer.setId(1L);//client id that was not persisted
 		
 		// action
 	    Throwable exception = assertThrows(
 	            CustomerException.class, () -> {
-	            	customerService.findById(customer.getId() + 1L);
+	            	customerService.findById(customer.getId());
 	            }
 	    );
 	 
@@ -241,13 +240,13 @@ public class CustomerServiceTest {
 	public void shouldThrowExptionWhenCustomerIsNotFindByIdToBeDeleted() throws CustomerException {
 		
 		// scenario
-		CustomerDto customerDto = new CustomerDto(null, NAME_A, CPF_A) ; 
-		Customer customer = customerService.save(customerDto);
+		Customer customer = new Customer();
+		customer.setId(1L); //id de cliente que não foi persistido
 		
 		// action
 	    Throwable exception = assertThrows(
 	            CustomerException.class, () -> {
-	            	customerService.delete(customer.getId() + 1L);
+	            	customerService.delete(customer.getId());
 	            }
 	    );
 	 
@@ -299,7 +298,7 @@ public class CustomerServiceTest {
 		
 		// scenario	
 		CustomerDto customerDtoA = new CustomerDto(null, NAME_A, CPF_A) ; 
-		Customer cA = customerService.save(customerDtoA);
+		customerService.save(customerDtoA);
 
 		CustomerDto customerDtoB = new CustomerDto(null, NAME_B, CPF_B) ; 
 		Customer customerB = customerService.save(customerDtoB);
@@ -327,7 +326,7 @@ public class CustomerServiceTest {
 		
 		// scenario	
 		CustomerDto customerDtoA = new CustomerDto(null, NAME_A, CPF_A) ; 
-		Customer cA = customerService.save(customerDtoA);
+		customerService.save(customerDtoA);
 
 		CustomerDto customerDtoB = new CustomerDto(null, NAME_B, CPF_B) ; 
 		Customer customerB = customerService.save(customerDtoB);

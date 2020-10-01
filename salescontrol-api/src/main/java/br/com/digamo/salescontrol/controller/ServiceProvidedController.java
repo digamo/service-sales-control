@@ -3,6 +3,8 @@ package br.com.digamo.salescontrol.controller;
 import javax.validation.Valid;
 
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -65,8 +67,10 @@ public class ServiceProvidedController {
 			@RequestParam(required = false, defaultValue = "4") Integer size,
 			@RequestParam(value = "customerName", required = false) String customerName, 
 			@RequestParam(value = "serviceMonth", required = false) Integer serviceMonth) {
+
+		Pageable pageable =  PageRequest.of(page, size);
 		
-		return service.findServiceByCustomerNameAndServiceMonth(customerName, serviceMonth, page, size);
+		return service.findServiceByCustomerNameAndServiceMonth(customerName, serviceMonth, pageable);
 	}
 
 }

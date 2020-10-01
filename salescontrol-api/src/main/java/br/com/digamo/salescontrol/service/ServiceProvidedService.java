@@ -3,11 +3,11 @@ package br.com.digamo.salescontrol.service;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.Locale;
 
 import org.springframework.context.MessageSource;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -22,8 +22,8 @@ import br.com.digamo.salescontrol.util.BigDecimalConverter;
 @Service
 public class ServiceProvidedService {
 
-	private final static String INCORRECT_DATE_FORMAT = "incorrect.date.format";
-	private final static String INCORRECT_VALUE_FORMAT = "incorrect.value.format";
+	public final static String INCORRECT_DATE_FORMAT = "incorrect.date.format";
+	public final static String INCORRECT_VALUE_FORMAT = "incorrect.value.format";
 	
 	private final MessageSource messageSource;
 	private final ServiceProvidedRepository repository; 
@@ -44,11 +44,11 @@ public class ServiceProvidedService {
 	 * @throws ServiceProvidedException
 	 */
 	public ServiceProvided save(ServiceProvidedDto serviceProvidedDto) throws CustomerException, ServiceProvidedException {
-		
+
 		//Search the customer for the selected customer's id
 		Customer customer = customerService
 				.findById(serviceProvidedDto.getIdCustomer());
-
+ 
 		ServiceProvided serviceProvided = new ServiceProvided();
 		serviceProvided.setDescription(serviceProvidedDto.getDescription());
 		serviceProvided.setCustomer(customer);
@@ -86,11 +86,27 @@ public class ServiceProvidedService {
 	 * @param serviceMonth
 	 * @return
 	 */
-	public Page<ServiceProvided> findServiceByCustomerNameAndServiceMonth(String customerName, Integer serviceMonth, int page, int size) {
-
-		Pageable pageable =  PageRequest.of(page, size);
+	public Page<ServiceProvided> findServiceByCustomerNameAndServiceMonth(
+			String customerName, Integer serviceMonth, Pageable pageable) {
 		
-		return repository.findServiceByCustomerNameAndServiceMonth(customerName, serviceMonth, pageable);
+		return repository.findServiceByCustomerNameAndServiceMonth(
+				customerName, serviceMonth, pageable);
 
+	}
+
+	/**
+	 * Remove all services provided registered
+	 */
+	public void deleteAll() {
+		repository.deleteAll();
+		
+	}
+
+	/**
+	 * Return a list with all services provided registered
+	 * @return
+	 */
+	public List<ServiceProvided> findAll() {
+		return repository.findAll();
 	}
 }

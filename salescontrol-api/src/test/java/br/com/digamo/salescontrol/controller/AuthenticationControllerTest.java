@@ -67,11 +67,10 @@ public class AuthenticationControllerTest {
 
 		roleRepository.save(new Role(Roles.ADMIN.toString()));
 		userService.save(userDto, Roles.ADMIN);
-    	 
-    	 // action
-        String token = authService.generateToken(userDto);
 
-        // verification	
+		String token = authService.generateToken(userDto);
+    	 
+		// action / verification
         Assertions.assertThat(token).isNotNull();
         mvc.perform(MockMvcRequestBuilders.post("/api/auth")
         		.contentType(MediaType.APPLICATION_JSON)

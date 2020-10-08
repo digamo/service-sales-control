@@ -12,16 +12,19 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import br.com.digamo.salescontrol.controller.dto.UserDto;
 import br.com.digamo.salescontrol.model.entity.Role;
 import br.com.digamo.salescontrol.model.entity.Roles;
 import br.com.digamo.salescontrol.model.repository.RoleRepository;
 import br.com.digamo.salescontrol.service.AuthenticationService;
 import br.com.digamo.salescontrol.service.UserService;
+import br.com.digamo.salescontrol.util.StringUtils;
 
-
+/**
+ * 
+ * @author digam
+ *
+ */
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -52,7 +55,7 @@ public class AuthenticationControllerTest {
 		// action / verification
     	mvc.perform(MockMvcRequestBuilders.post("/api/auth")
         		.contentType(MediaType.APPLICATION_JSON)
-        		.content(asJsonString(userDto))
+        		.content(StringUtils.asJsonString(userDto))
         		.header("Authorization", token))
         .andExpect(MockMvcResultMatchers.status().isBadRequest());
     }
@@ -74,23 +77,9 @@ public class AuthenticationControllerTest {
         Assertions.assertThat(token).isNotNull();
         mvc.perform(MockMvcRequestBuilders.post("/api/auth")
         		.contentType(MediaType.APPLICATION_JSON)
-        		.content(asJsonString(userDto))
+        		.content(StringUtils.asJsonString(userDto))
         		.header("Authorization", token))
         		.andExpect(MockMvcResultMatchers.status().isOk());
-    }
-
-
-    /**
-     * Util Method 
-     * @param obj
-     * @return
-     */
-    private static String asJsonString(final Object obj) {
-        try {
-            return new ObjectMapper().writeValueAsString(obj);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
     }
 
 }

@@ -1,6 +1,7 @@
 package br.com.digamo.salescontrol.model.repository;
 
-import org.assertj.core.api.Assertions;
+import static org.assertj.core.api.Assertions.assertThat;
+
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,8 +34,8 @@ public class RoleRepositoryTest {
 		role = roleRepository.save(role);
 		
 		// verification				
-		Assertions.assertThat(role.getName()).isNotNull();
-		Assertions.assertThat(role.getName()).isEqualTo(ROLE);
+		assertThat(role.getName()).isNotNull();
+		assertThat(role.getName()).isEqualTo(ROLE);
 	}
 
 	@Test
@@ -50,8 +51,8 @@ public class RoleRepositoryTest {
 		role = this.roleRepository.save(role);
 		
 		// verification		
-		Assertions.assertThat(role.getName()).isNotNull();
-		Assertions.assertThat(role.getName()).isEqualTo("ADMIN_2");
+		assertThat(role.getName()).isNotNull();
+		assertThat(role.getName()).isEqualTo("ADMIN_2");
 
 	}
 	
@@ -66,7 +67,7 @@ public class RoleRepositoryTest {
 		this.roleRepository.delete(role);
 		
 		// verification		
-		Assertions.assertThat(this.roleRepository.findByName(role.getName()).isPresent()).isFalse();
+		assertThat(this.roleRepository.findByName(role.getName()).isPresent()).isFalse();
 	}
 
 

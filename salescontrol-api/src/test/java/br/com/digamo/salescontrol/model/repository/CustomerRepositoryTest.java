@@ -3,6 +3,8 @@ package br.com.digamo.salescontrol.model.repository;
 import java.util.Optional;
 
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +22,9 @@ import br.com.digamo.salescontrol.model.entity.Customer;
 @DataJpaTest
 public class CustomerRepositoryTest {
 
+	private Customer customerA;
+	private Customer customerB;
+	
 	private static final String NAME_A = "Digamo A";
 	private static final String CPF_A = "15552680057"; //fake number
 	
@@ -29,60 +34,59 @@ public class CustomerRepositoryTest {
 	@Autowired
 	private CustomerRepository customerRepository;
 	
+	@BeforeEach
+	public void setUp() {
+		
+		// scenario
+		this.customerA = new Customer(NAME_A, CPF_A) ;
+		this.customerA = customerRepository.save(this.customerA);
+		
+		this.customerB = new Customer(NAME_B, CPF_B) ;
+		this.customerB = customerRepository.save(this.customerB);
+	}
+
+	@AfterEach
+	public void tearDown() {
+		customerRepository.deleteAll();
+	}
+	
 	@Test
 	public void shouldPersistCustomer() {
 
-		// scenario
-		Customer customer = new Customer(NAME_A, CPF_A) ; 
-		
-		// action
-		customer = customerRepository.save(customer);
-
 		// verification		
-		Assertions.assertThat(customer.getId()).isNotNull();
-		Assertions.assertThat(customer.getName()).isEqualTo(NAME_A);
-		Assertions.assertThat(customer.getCpf()).isEqualTo(CPF_A);
+		Assertions.assertThat(customerA.getId()).isNotNull();
+		Assertions.assertThat(customerA.getName()).isEqualTo(NAME_A);
+		Assertions.assertThat(customerA.getCpf()).isEqualTo(CPF_A);
 	}
 	
 	@Test
 	public void shouldUpdateCustomer() {
 
-		// scenario	
-		Customer customer = new Customer(NAME_A, CPF_A) ; 
-		customerRepository.save(customer);
-		
-		customer.setName(NAME_B);
-		customer.setCpf(CPF_B); 
+		// scenario
+		customerA.setName(NAME_B);
+		customerA.setCpf(CPF_B); 
 
 		// action
-		customer = this.customerRepository.save(customer);
+		customerA = this.customerRepository.save(customerA);
 		
 		// verification		
-		Assertions.assertThat(customer.getId()).isNotNull();
-		Assertions.assertThat(customer.getName()).isEqualTo(NAME_B);
-		Assertions.assertThat(customer.getCpf()).isEqualTo(CPF_B); 
+		Assertions.assertThat(customerA.getId()).isNotNull();
+		Assertions.assertThat(customerA.getName()).isEqualTo(NAME_B);
+		Assertions.assertThat(customerA.getCpf()).isEqualTo(CPF_B); 
 	}
 
 	@Test
 	public void shouldRemoveCustomer() {
 		
-		// scenario	
-		Customer customer = new Customer(NAME_A, CPF_A) ; 
-		this.customerRepository.save(customer);
-		
 		// action
-		this.customerRepository.delete(customer);
+		this.customerRepository.delete(customerA);
 		
 		// verification		
-		Assertions.assertThat(this.customerRepository.findById(customer.getId()).isPresent()).isFalse();
+		Assertions.assertThat(this.customerRepository.findById(customerA.getId()).isPresent()).isFalse();
 	}
 	
 	@Test
 	public void shouldFindCustomerWithCustomerName() {
-		
-		// scenario	
-		Customer customer = new Customer(NAME_A, CPF_A) ; 
-		customerRepository.save(customer);
 		
 		// action
 		Optional<Customer> customerFoundByName = this.customerRepository.findByNameOrCpf(NAME_A, null);
@@ -97,10 +101,6 @@ public class CustomerRepositoryTest {
 	@Test
 	public void shouldFindCustomerWithCustomerCpf() {
 
-		// scenario	
-		Customer customer = new Customer(NAME_A, CPF_A) ; 
-		customerRepository.save(customer);
-		
 		// action
 		Optional<Customer> customerFoundByCpf = this.customerRepository.findByNameOrCpf(null, CPF_A);
 		
@@ -112,10 +112,6 @@ public class CustomerRepositoryTest {
 
 	@Test
 	public void shouldFindCustomerWithCustomerNameAndCustomerCpf() {
-		
-		// scenario	
-		Customer customer = new Customer(NAME_A, CPF_A) ; 
-		customerRepository.save(customer);
 		
 		// action
 		Optional<Customer> customerFoundByNameAndCpf = this.customerRepository.findByNameOrCpf(NAME_A, CPF_A);
@@ -130,20 +126,14 @@ public class CustomerRepositoryTest {
 	@Test
 	public void shouldFindMoreThenOneCustomerNameWithDifferentId() {
 		
-		// scenario	
-		Customer customerA = new Customer(NAME_A, CPF_A) ; 
-		customerRepository.save(customerA);
-
-		Customer customerB = new Customer(NAME_B, CPF_B) ; 
-		customerRepository.save(customerB);
-		
+		// scenario
 		//In an attempt to update a customer with a name that already exists
 		customerB.setName(NAME_A);
 		
 		// action
 		Optional<Customer> customerFoundByNameAndDifferentId = 
 				this.customerRepository.
-				findMoreThenOneNameOrCpfWithDifferentId(customerB.getName(), customerB.getName(), customerB.getId());
+				findMoreThanOneNameOrCpfWithDifferentId(customerB.getName(), customerB.getName(), customerB.getId());
 		
 		// verification		
 		Assertions.assertThat(customerFoundByNameAndDifferentId.isPresent()).isTrue();
@@ -155,20 +145,14 @@ public class CustomerRepositoryTest {
 	@Test
 	public void shouldFindMoreThenOneCustomerCpfWithDifferentId() {
 		
-		// scenario	
-		Customer customerA = new Customer(NAME_A, CPF_A) ; 
-		customerRepository.save(customerA);
-
-		Customer customerB = new Customer(NAME_B, CPF_B) ; 
-		customerRepository.save(customerB);
-		
+		// scenario
 		//In an attempt to update a customer with a cpf that already exists
 		customerB.setCpf(CPF_A);
 		
 		// action
 		Optional<Customer> customerFoundByCpfAndDifferentId = 
 				this.customerRepository.
-				findMoreThenOneNameOrCpfWithDifferentId(customerB.getName(), customerB.getCpf(), customerB.getId());
+				findMoreThanOneNameOrCpfWithDifferentId(customerB.getName(), customerB.getCpf(), customerB.getId());
 		
 		// verification		
 		Assertions.assertThat(customerFoundByCpfAndDifferentId.isPresent()).isTrue();

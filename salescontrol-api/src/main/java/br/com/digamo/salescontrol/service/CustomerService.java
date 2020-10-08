@@ -127,7 +127,7 @@ public class CustomerService {
 	public void update(CustomerDto customerDto ) throws CustomerException {
 
 		Optional<Customer> customerFound = 
-				customerRepository.findMoreThenOneNameOrCpfWithDifferentId(customerDto.getName(), customerDto.getCpf(), customerDto.getId());
+				customerRepository.findMoreThanOneNameOrCpfWithDifferentId(customerDto.getName(), customerDto.getCpf(), customerDto.getId());
 
 		if(customerFound.isPresent()) {
 		

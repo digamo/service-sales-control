@@ -12,5 +12,5 @@ public interface CustomerRepository extends JpaRepository<Customer, Long>{
 	Optional<Customer> findByNameOrCpf(String name, String cpf);
 
 	@Query(value = "SELECT c FROM Customer c WHERE (c.name = ?1 OR c.cpf = ?2) AND c.id <> ?3 ")
-	Optional<Customer> findMoreThenOneNameOrCpfWithDifferentId(String name, String cpf, Long id);
+	Optional<Customer> findMoreThanOneNameOrCpfWithDifferentId(String name, String cpf, Long id);
 }

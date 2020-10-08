@@ -1,6 +1,7 @@
 package br.com.digamo.salescontrol.service;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Locale;
 
 import org.springframework.context.MessageSource;
@@ -10,7 +11,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import br.com.digamo.salescontrol.controller.dto.UserDto;
-import br.com.digamo.salescontrol.exception.CustomerException;
 import br.com.digamo.salescontrol.exception.RegisteredUserException;
 import br.com.digamo.salescontrol.model.entity.Role;
 import br.com.digamo.salescontrol.model.entity.Roles;
@@ -22,8 +22,8 @@ import br.com.digamo.salescontrol.util.BCriptUtil;
 @Service
 public class UserService implements UserDetailsService{
 
-	private final static String USERNAME_ALREADY_REGISTRED = "user.username.already.registered";
-	private final static String INVALID_CREDENTIAL = "invalid.credential";
+	public final static String USERNAME_ALREADY_REGISTRED = "user.username.already.registered";
+	public final static String INVALID_CREDENTIAL = "invalid.credential";
 	
 	private final UserRepository userRepository;
 
@@ -39,8 +39,10 @@ public class UserService implements UserDetailsService{
 
 		User userAtentication = userRepository
 				.findByUsername(username)
-				.orElseThrow(() -> new UsernameNotFoundException(INVALID_CREDENTIAL));
-	
+				.orElseThrow(() -> 
+				new UsernameNotFoundException(
+						messageSource.getMessage(INVALID_CREDENTIAL, null, Locale.getDefault())));
+				
 		return userAtentication;
 	}
 
@@ -72,13 +74,19 @@ public class UserService implements UserDetailsService{
 	}
 	
 	/**
-	 * 
-	 * @throws CustomerException
+	 * Remove all users registered
 	 */
-	public void deleteAll() throws CustomerException {
-
+	public void deleteAll() {
 		userRepository.deleteAll();
+		
 	}
 
+	/**
+	 * Return a list with all users registered
+	 * @return
+	 */
+	public List<User> findAll() {
+		return userRepository.findAll();
+	}
 
 }

@@ -1,5 +1,6 @@
 package br.com.digamo.salescontrol.controller;
 
+import static org.hamcrest.CoreMatchers.is;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -262,6 +263,22 @@ public class CustomerControllerTest {
 
     }
     
+	@Test
+	public void shoulFindNotEmptyListOfAllCustomersWithPageable() throws Exception {
+		
+		// scenario
+		CustomerDto customerDto = new CustomerDto(null, NAME_A, CPF_A) ; 
+		customerService.save(customerDto);
+
+		// action / verification
+        mvc.perform(MockMvcRequestBuilders.get(URI + "?page=0&size=1")
+        		.contentType(MediaType.APPLICATION_JSON)
+        		.header("Authorization", "Bearer " + token))
+        		.andExpect(MockMvcResultMatchers.status().isOk())
+        		.andExpect(jsonPath("$.content[0].name", is(NAME_A)));
+        	
+	}
+    
     @Test
     public void shouldDeleteCustomerAndReturnStatus204() throws Exception  {
 
@@ -306,23 +323,6 @@ public class CustomerControllerTest {
 
     }
 
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     @Test
     public void shouldUpdateCustomerAndReturnStatus204() throws Exception  {
 

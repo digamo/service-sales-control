@@ -41,12 +41,15 @@ public class ServiceProvidedController {
 	 */
 	@PostMapping
 	@ResponseStatus(value = HttpStatus.CREATED)
-	public ServiceProvided save(@RequestBody @Valid ServiceProvidedDto serviceProvidedDto) throws CustomerException {
+	public ServiceProvided save(@RequestBody @Valid ServiceProvidedDto serviceProvidedDto) {
 		
 		ServiceProvided serviceSaved = null;
 		
 		try {
 			serviceSaved = service.save(serviceProvidedDto);
+		
+		} catch (CustomerException e) {
+			throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
 			
 		} catch (ServiceProvidedException e) {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());

@@ -46,6 +46,9 @@ public class ServiceProvidedServiceTest {
     @Autowired
     private MessageSource messageSource;
 
+	private static final String NAME_A = "Digamo A";
+	private static final String CPF_A = "15552680057"; //fake number
+
     @AfterEach
     private void end() throws CustomerException {
     	service.deleteAll();
@@ -56,7 +59,7 @@ public class ServiceProvidedServiceTest {
 	public void shouldSaveNewServiceProvidedWithSuccess() throws CustomerException, ServiceProvidedException {
 		
 		// scenario
-		CustomerDto customerDto = new CustomerDto(null, "Digamo A", "15552680057") ; //fake number 
+		CustomerDto customerDto = new CustomerDto(null, NAME_A, CPF_A) ; //fake number 
 		Customer customer = customerService.save(customerDto);
 		
 		ServiceProvidedDto serviceProvidedDto = new ServiceProvidedDto();
@@ -80,7 +83,7 @@ public class ServiceProvidedServiceTest {
 	public void shouldThrowExptionWhenServiceProvidedReceveDateServiceInWrongFormat() throws CustomerException, ServiceProvidedException {
 
 		// scenario
-		CustomerDto customerDto = new CustomerDto(null, "Digamo A", "15552680057") ; //fake number 
+		CustomerDto customerDto = new CustomerDto(null, NAME_A, CPF_A) ; //fake number 
 		Customer customer = customerService.save(customerDto);
 		
 		ServiceProvidedDto serviceProvidedDto = new ServiceProvidedDto();
@@ -107,7 +110,7 @@ public class ServiceProvidedServiceTest {
 	public void shouldThrowExptionWhenServiceProvidedReceveValueServiceInWrongFormat() throws CustomerException, ServiceProvidedException {
 
 		// scenario
-		CustomerDto customerDto = new CustomerDto(null, "Digamo A", "15552680057") ; //fake number 
+		CustomerDto customerDto = new CustomerDto(null, NAME_A, CPF_A) ; //fake number 
 		Customer customer = customerService.save(customerDto);
 		
 		ServiceProvidedDto serviceProvidedDto = new ServiceProvidedDto();
@@ -163,7 +166,7 @@ public class ServiceProvidedServiceTest {
 	public void shoulDeleteAllOfServicesProvided() throws CustomerException, ServiceProvidedException {
 		
 		// scenario
-		CustomerDto customerDto = new CustomerDto(null, "Digamo A", "15552680057") ; //fake number 
+		CustomerDto customerDto = new CustomerDto(null, NAME_A, CPF_A) ; //fake number 
 		Customer customer = customerService.save(customerDto);
 		
 		ServiceProvidedDto serviceProvidedDto = new ServiceProvidedDto();
@@ -185,7 +188,7 @@ public class ServiceProvidedServiceTest {
 	public void shoulFindAllOfServicesProvided() throws CustomerException, ServiceProvidedException {
 		
 		// scenario
-		CustomerDto customerDto = new CustomerDto(null, "Digamo A", "15552680057") ; //fake number 
+		CustomerDto customerDto = new CustomerDto(null, NAME_A, CPF_A) ; //fake number 
 		Customer customer = customerService.save(customerDto);
 		
 		ServiceProvidedDto serviceProvidedDto = new ServiceProvidedDto();
@@ -207,7 +210,7 @@ public class ServiceProvidedServiceTest {
 	public void shoulFindAListOfAllServicesProvidedWithPageableComparingByCustomerNameCriteria() throws CustomerException, ServiceProvidedException {
 		
 		// scenario
-		CustomerDto customerDto = new CustomerDto(null, "Digamo A", "15552680057") ; //fake number 
+		CustomerDto customerDto = new CustomerDto(null, NAME_A, CPF_A) ; //fake number 
 		Customer customer = customerService.save(customerDto);
 		
 		ServiceProvidedDto serviceProvidedDto1 = new ServiceProvidedDto();
@@ -243,7 +246,7 @@ public class ServiceProvidedServiceTest {
 	public void shoulFindAListOfAllServicesProvidedWithPageableComparingByServiceMonthCriteria() throws CustomerException, ServiceProvidedException {
 		
 		// scenario
-		CustomerDto customerDto = new CustomerDto(null, "Digamo A", "15552680057") ; //fake number 
+		CustomerDto customerDto = new CustomerDto(null, NAME_A, CPF_A) ; //fake number 
 		Customer customer = customerService.save(customerDto);
 		
 		ServiceProvidedDto serviceProvidedDto1 = new ServiceProvidedDto();
@@ -279,7 +282,7 @@ public class ServiceProvidedServiceTest {
 	public void shoulFindAListOfAllServicesProvidedWithPageableComparingByServiceMonthAndCustomerNameCriteria() throws CustomerException, ServiceProvidedException {
 		
 		// scenario
-		CustomerDto customerDto = new CustomerDto(null, "Digamo A", "15552680057") ; //fake number 
+		CustomerDto customerDto = new CustomerDto(null, NAME_A, CPF_A) ; //fake number 
 		Customer customer = customerService.save(customerDto);
 		
 		ServiceProvidedDto serviceProvidedDto1 = new ServiceProvidedDto();

@@ -60,20 +60,19 @@ public class CustomerControllerTest {
 	@Autowired
 	private AuthenticationService authService;
 	
+	@Autowired
+	private MessageSource messageSource;
+	
+	private static final String REQUIRED_NAME_FIELD = "required.name.field";
+	private static final String REQUIRED_CPF_FIELD = "required.cpf.field";
+	private static final String INVALID_CPF_FIELD = "invalid.cpf.field";
+
 	private static final String URI = "/api/customers";
 	
 	private static final String NAME_A = "Digamo A";
 	private static final String CPF_A = "15552680057"; //fake number
-
-	private static final String REQUIRED_NAME_FIELD = "required.name.field";
-	private static final String REQUIRED_CPF_FIELD = "required.cpf.field";
-	private static final String INVALID_CPF_FIELD = "invalid.cpf.field";
 	
 	private String token = "";
-
-    @Autowired
-    private MessageSource messageSource;
-
     
 	@BeforeEach
 	private void setup() throws AuthenticationException {
@@ -94,7 +93,6 @@ public class CustomerControllerTest {
     @AfterEach
     private void end() throws CustomerException {
     	customerService.deleteAll();
-		
 		userService.deleteAll();
     }
 
@@ -278,7 +276,20 @@ public class CustomerControllerTest {
         		.andExpect(jsonPath("$.content[0].name", is(NAME_A)));
         	
 	}
-    
+
+	@Test
+	public void shouldThrowExceptionWhenTriesToAccessFindListOfCustomerWithPageableWithoutAuthorization() throws Exception {
+		
+		// scenario
+		CustomerDto customerDto = new CustomerDto(null, NAME_A, CPF_A) ; 
+		customerService.save(customerDto);
+
+		// action / verification
+        mvc.perform(MockMvcRequestBuilders.get(URI + "?page=0&size=1")
+        		.contentType(MediaType.APPLICATION_JSON))
+        		.andExpect(MockMvcResultMatchers.status().isForbidden());
+	}
+
     @Test
     public void shouldDeleteCustomerAndReturnStatus204() throws Exception  {
 

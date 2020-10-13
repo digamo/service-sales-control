@@ -26,7 +26,7 @@ import br.com.digamo.salescontrol.exception.CustomerException;
 import br.com.digamo.salescontrol.exception.ServiceProvidedException;
 import br.com.digamo.salescontrol.model.entity.Customer;
 import br.com.digamo.salescontrol.model.entity.ServiceProvided;
-import br.com.digamo.salescontrol.util.BigDecimalConverter;
+import br.com.digamo.salescontrol.util.BigDecimalUtil;
 
 /**
  * 
@@ -75,7 +75,7 @@ public class ServiceProvidedServiceTest {
 		Assertions.assertThat(serviceProvided.getId()).isNotNull();
 		Assertions.assertThat(serviceProvided.getCustomer().getId()).isEqualTo(customer.getId());
 		Assertions.assertThat(serviceProvided.getDescription()).isEqualTo(serviceProvidedDto.getDescription());
-		Assertions.assertThat(serviceProvided.getValue()).isEqualTo(BigDecimalConverter.converter(serviceProvidedDto.getValue()));
+		Assertions.assertThat(serviceProvided.getValue()).isEqualTo(BigDecimalUtil.converter(serviceProvidedDto.getValue()));
 		Assertions.assertThat(serviceProvided.getDateService()).isEqualTo(LocalDate.parse(serviceProvidedDto.getDateService(), DateTimeFormatter.ofPattern("yyyy-MM-dd")));
 	}
 	

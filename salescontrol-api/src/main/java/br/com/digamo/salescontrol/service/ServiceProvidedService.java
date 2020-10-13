@@ -17,7 +17,7 @@ import br.com.digamo.salescontrol.exception.ServiceProvidedException;
 import br.com.digamo.salescontrol.model.entity.Customer;
 import br.com.digamo.salescontrol.model.entity.ServiceProvided;
 import br.com.digamo.salescontrol.model.repository.ServiceProvidedRepository;
-import br.com.digamo.salescontrol.util.BigDecimalConverter;
+import br.com.digamo.salescontrol.util.BigDecimalUtil;
 
 @Service
 public class ServiceProvidedService {
@@ -65,7 +65,7 @@ public class ServiceProvidedService {
 		
 		try {
 			//Formats the String Value, expected in Number format, for the BigDecimal type
-			BigDecimal formattedValue = BigDecimalConverter.converter(serviceProvidedDto.getValue());  
+			BigDecimal formattedValue = BigDecimalUtil.converter(serviceProvidedDto.getValue());  
 			serviceProvided.setValue(formattedValue);
 		
 		}catch (Exception e) {

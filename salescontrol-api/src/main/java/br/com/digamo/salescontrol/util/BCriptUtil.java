@@ -2,6 +2,7 @@ package br.com.digamo.salescontrol.util;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.util.StringUtils;
 
 public class BCriptUtil {
 
@@ -11,6 +12,9 @@ public class BCriptUtil {
 	 * @return
 	 */
 	public static String encript(String passwd) {
+		
+		if(StringUtils.isEmpty(passwd))
+			throw new IllegalArgumentException();
 		
 		PasswordEncoder encoder = new BCryptPasswordEncoder();
 		
@@ -25,6 +29,9 @@ public class BCriptUtil {
 	 * @return
 	 */
 	public static boolean match(String encodedPassword, String passwd) {
+
+		if(encodedPassword == null || passwd == null)
+			throw new IllegalArgumentException();
 		
 		PasswordEncoder encoder = new BCryptPasswordEncoder();
 		

@@ -58,10 +58,10 @@ $ git clone https://github.com/digamo/service-sales-control.git
 ```bash
 
 # Go to api folder
-$ /api
+$ /salescontrol-api
 
 # Run Aplication
-$ mvn spring-boot:run
+$ mvn spring-boot:run test
 
 ```
 
@@ -70,13 +70,13 @@ $ mvn spring-boot:run
 ```bash
 
 # Go to web folder
-$ /web
+$ /salescontrol-web
 
 # Install Dependencies
 $ npm install
 
 # Run Aplication
-$ npm start
+$ ng server
 
 ```
 Access url: `http://localhost:4200/`

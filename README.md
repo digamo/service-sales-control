@@ -6,7 +6,7 @@
   <img alt="Java Version" src="https://img.shields.io/badge/Java-8-green">
   <img alt="Spring Boot" src="https://img.shields.io/badge/Spring%20Boot-2.3.3-green">
   <img alt="Angular Version language count" src="https://img.shields.io/badge/angular-10-green">
-  <img alt="Created Diego Gomes" src="https://img.shields.io/badge/created%20by-Diego%20Gomes-brightgreen">
+  <img alt="Created Diego Gomes" src="https://img.shields.io/badge/created%20by-Diego%20Gomes-green">
   </a>
 </p>
 

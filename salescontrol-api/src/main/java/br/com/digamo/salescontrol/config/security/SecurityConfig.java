@@ -10,6 +10,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 
 import br.com.digamo.salescontrol.model.repository.UserRepository;
 import br.com.digamo.salescontrol.service.UserService;
@@ -65,5 +66,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		.and().addFilterBefore(new AuthenticationTokenFilter(tokenService, userRepository), UsernamePasswordAuthenticationFilter.class);
 	
 	}
-	
+
+	//Configuration of statistical resources (js, css, imagens, etc)
+	@Override
+	public void configure(WebSecurity web) throws Exception {
+		web.ignoring()
+        .antMatchers("/**.html", "/v2/api-docs", "/webjars/**", "/configuration/**", "/swagger-resources/**");
+	}
 }

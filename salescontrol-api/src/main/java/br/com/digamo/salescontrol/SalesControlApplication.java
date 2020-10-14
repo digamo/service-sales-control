@@ -7,9 +7,11 @@ import org.springframework.data.domain.AuditorAware;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 import br.com.digamo.salescontrol.config.SpringSecurityAuditorAware;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @EnableJpaAuditing(auditorAwareRef = "auditorAware")
 @SpringBootApplication
+@EnableSwagger2
 public class SalesControlApplication {
 
 	public static void main(String[] args) {
